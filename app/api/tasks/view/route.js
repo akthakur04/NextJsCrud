@@ -13,4 +13,5 @@ export async function GET(req) {
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Error fetching task' }), { status: 500 });
   }
+
 }
