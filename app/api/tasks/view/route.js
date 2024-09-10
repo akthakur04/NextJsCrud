@@ -5,7 +5,8 @@ export async function GET(req) {
   await connectMongo();
 
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().lean();
+    
     const headers = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
       'Content-Type': 'application/json',

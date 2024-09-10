@@ -7,11 +7,11 @@ export async function GET(req) {
   await connectMongo();
 
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().lean(); // .lean() to avoid Mongoose document state caching
     return new Response(JSON.stringify(tasks), {
       status: 200,
       headers: {
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
 
         'Content-Type': 'application/json',
       },
@@ -20,7 +20,7 @@ export async function GET(req) {
     return new Response(JSON.stringify({ error: 'Error fetching tasks' }), {
       status: 400,
       headers: {
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
 
         'Content-Type': 'application/json',
       },
