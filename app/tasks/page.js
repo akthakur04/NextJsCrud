@@ -14,10 +14,12 @@ export default function ViewTasks() {
         cache: 'no-store', // Disable client-side caching
       });
         const data = await res.json();
+        console.log('data after fetch', data)
       setTasks(data);
     };
 
     fetchTasks();
+    
   }, []);
 
   const handleDelete = async (id) => {

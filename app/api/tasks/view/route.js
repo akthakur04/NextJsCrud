@@ -10,7 +10,7 @@ export async function GET(req) {
       'Cache-Control': 'no-store, max-age=0',
       'Content-Type': 'application/json',
     };
-
+    console.log('tasks',tasks)
     return new Response(JSON.stringify(tasks), { status: 200, headers });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Error fetching tasks' }), {

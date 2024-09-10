@@ -1,19 +1,27 @@
 import connectMongo from '@/lib/mongodb';
 import Task from '@/models/Task';
 
-export async function GET(req, { params }) {
+export const revalidate = 0; // Ensure the page doesn't cache
+
+export async function GET(req) {
   await connectMongo();
-  const { id } = params;
 
   try {
-    const task = await Task.findById(id);
-
-    if (!task) {
-      return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
-    }
-
-    return new Response(JSON.stringify(task), { status: 200 });
+    const tasks = await Task.find();
+    return new Response(JSON.stringify(tasks), {
+      status: 200,
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error fetching task' }), { status: 500 });
+    return new Response(JSON.stringify({ error: 'Error fetching tasks' }), {
+      status: 400,
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
