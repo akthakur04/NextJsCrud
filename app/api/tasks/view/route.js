@@ -7,7 +7,7 @@ export async function GET(req) {
   try {
     const tasks = await Task.find();
     const headers = {
-      'Cache-Control': 'no-store, max-age=0',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
       'Content-Type': 'application/json',
     };
     console.log('tasks',tasks)
@@ -15,7 +15,7 @@ export async function GET(req) {
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Error fetching tasks' }), {
       status: 400, headers: {
-        'Cache-Control': 'no-store, max-age=0',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Content-Type': 'application/json',
       }
     });
