@@ -10,9 +10,7 @@ export default function ViewTasks() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await fetch('/api/tasks/view', {
-        cache: 'no-store', // Disable client-side caching
-      });
+      const res = await fetch('/api/tasks/view');
         const data = await res.json();
         console.log('data after fetch', data)
       setTasks(data);

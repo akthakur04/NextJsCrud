@@ -3,11 +3,14 @@ import Task from '@/models/Task';
 
 export async function GET(req) {
   await connectMongo();
-  
   try {
-    const tasks = await Task.find();
-    return new Response(JSON.stringify(tasks), { status: 200 });
+    const task = await Task.find()
+
+    if (!task) {
+      return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
+    }
+    return new Response(JSON.stringify(task), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error fetching tasks' }), { status: 400 });
+    return new Response(JSON.stringify({ error: 'Error fetching task' }), { status: 500 });
   }
 }
