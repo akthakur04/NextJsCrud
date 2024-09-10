@@ -1,20 +1,26 @@
 'use client';
 import { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function Register() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loader
+
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
+    
     const data = await res.json();
+    setLoading(false); // Stop loader
+
     if (data.success) {
       alert('Registered successfully');
       router.push('/login'); // Redirect to the login page
@@ -61,10 +67,16 @@ export default function Register() {
             required
           />
         </Box>
-        <Button variant="contained" color="primary" type="submit" fullWidth>
-          Register
+        <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
+          {loading ? 'Registering...' : 'Register'} {/* Disable button and show text while loading */}
         </Button>
       </form>
+
+      {loading && (
+        <Box display="flex" justifyContent="center" mt={2}>
+          <CircularProgress /> {/* Display the loader below the button */}
+        </Box>
+      )}
     </Container>
   );
 }

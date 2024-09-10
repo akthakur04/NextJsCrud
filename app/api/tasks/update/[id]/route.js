@@ -7,8 +7,7 @@ export async function PUT(req, { params }) {
   const { title, description } = await req.json();
 
   try {
-    const task = await Task.findById(id).lean();
-    
+    const task = await Task.findById(id);
 
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
