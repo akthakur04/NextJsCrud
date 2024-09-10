@@ -1,9 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function Register() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,8 +15,12 @@ export default function Register() {
       body: JSON.stringify(formData),
     });
     const data = await res.json();
-    if (data.success) alert('Registered successfully');
-    else alert(data.error);
+    if (data.success) {
+      alert('Registered successfully');
+      router.push('/login'); // Redirect to the login page
+    } else {
+      alert(data.error);
+    }
   };
 
   return (
