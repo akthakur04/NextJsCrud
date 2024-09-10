@@ -7,7 +7,6 @@ export async function GET(req, { params }) {
 
   try {
     const task = await Task.findById(id);
-
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
     }
