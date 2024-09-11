@@ -46,7 +46,7 @@ export default function HomePage() {
         Welcome to the Next.js CRUD App
       </Typography>
       
-    {tasks?.map(e=>(<>e?.title</>))}
+    {tasks?.map(e=>(<>{e?.title}</>))}
       {user ? (
         <Box mt={3}>
           <Typography variant="h6" component="p">
