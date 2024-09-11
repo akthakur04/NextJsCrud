@@ -9,7 +9,7 @@ export default function ViewTasks() {
   const router = useRouter();
   useEffect(() => {
 
-    fetch('/api/tasks/view/', {
+    fetch('/api/todos/', {
       method: 'GET',
     })
       .then(res => res.json())  // Parse the response as JSON
