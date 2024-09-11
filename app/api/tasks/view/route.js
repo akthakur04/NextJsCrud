@@ -2,10 +2,10 @@ import connectMongo from '@/lib/mongodb';
 import Task from '@/models/Task';
 
 export async function GET(req) {
-  await connectMongo();
+  await connectMongo(); 
   try {
-    const task = await Task.find()
-    console.log('Task fetched', task)
+    const task = await Task.find({})
+    console.log("task  fetched success fully",task)
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
     }
