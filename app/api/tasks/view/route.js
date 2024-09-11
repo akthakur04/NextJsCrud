@@ -9,7 +9,6 @@ export async function GET(req) {
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
     }
-    console.log(response)
     return new Response(JSON.stringify(task), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Error fetching task' }), { status: 500 });
