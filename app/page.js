@@ -10,15 +10,25 @@ import {
 
 export default function HomePage() {
   const [user, setUser] = useState(null);
+  
+  // useEffect(() => {
+  //   // Fetch the user from localStorage
+  //   const userData = localStorage.getItem('user');
+  //   if (userData) {
+  //     setUser(JSON.parse(userData));
+  //   }
+  // }, []);
 
+  
   useEffect(() => {
-    // Fetch the user from localStorage
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
     }
   }, []);
-
+  
   const handleLogout = () => {
     localStorage.removeItem('user');
     window.location.reload();
