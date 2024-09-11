@@ -5,7 +5,7 @@ export async function GET(req) {
   await connectMongo();
   try {
     const task = await Task.find({})
-
+    console.log('Task fetched', task)
     if (!task) {
       return new Response(JSON.stringify({ error: 'Task not found' }), { status: 404 });
     }
