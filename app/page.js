@@ -34,7 +34,6 @@ export default function HomePage() {
         "Pragma":"no-cache",
         "Expires":"0"
       }
-
     })
       .then(res => res.json())  // Parse the response as JSON
       .then(data => {
