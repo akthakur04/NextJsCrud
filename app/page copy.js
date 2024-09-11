@@ -37,7 +37,7 @@ export default function HomePage() {
 
   useEffect(() => {
 
-    fetch('/api/todos', {
+    fetch('/api/todos/', {
       method: 'GET',
       headers:{
         "Cache-Control":"no-cache, no-store, must-revalidate",
