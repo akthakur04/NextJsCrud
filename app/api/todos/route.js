@@ -5,8 +5,7 @@ import Task from '@/models/Task';
 export async function GET() {
   try {
     await connectMongo();
-    console.log('Connected to MongoDB');
-    
+    console.log('Connected to MongoDB'); 
     const tasks = await Task.find({}).lean();
     console.log(`Fetched ${tasks.length} tasks from the database`);
     

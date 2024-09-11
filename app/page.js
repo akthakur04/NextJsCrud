@@ -23,13 +23,30 @@ export default function HomePage() {
     localStorage.removeItem('user');
     window.location.reload();
   };
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+
+    fetch('/api/todos/', {
+      method: 'GET',
+    })
+      .then(res => res.json())  // Parse the response as JSON
+      .then(data => {
+        console.log('data after fetch', data);
+        setTasks(data);  // Update the state with the fetched data
+      })
+      .catch(error => {
+        console.error('Error fetching tasks:', error);  // Handle any errors
+      });
+  }, []);
 
   return (
     <Container maxWidth="md" style={{ padding: '20px' }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Welcome to the Next.js CRUD App
       </Typography>
-
+      
+    {tasks?.map(e=>(<>e?.title</>))}
       {user ? (
         <Box mt={3}>
           <Typography variant="h6" component="p">
