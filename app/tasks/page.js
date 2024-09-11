@@ -7,20 +7,21 @@ import Link from 'next/link';
 export default function ViewTasks() {
   const [tasks, setTasks] = useState([]);
   const router = useRouter();
-
   useEffect(() => {
-    const fetchTasks = async () => {
-      const res = await fetch('/api/tasks/view/',{
-        method:'GET',
-      });
-        const data = await res.json();
-        console.log('data after fetch', data)
-      setTasks(data);
-    };
 
-    fetchTasks();
-    
+    fetch('/api/tasks/view/', {
+      method: 'GET',
+    })
+      .then(res => res.json())  // Parse the response as JSON
+      .then(data => {
+        console.log('data after fetch', data);
+        setTasks(data);  // Update the state with the fetched data
+      })
+      .catch(error => {
+        console.error('Error fetching tasks:', error);  // Handle any errors
+      });
   }, []);
+
 
   const handleDelete = async (id) => {
     const res = await fetch(`/api/tasks/delete/${id}`, {
@@ -33,16 +34,17 @@ export default function ViewTasks() {
     }
   };
 
+  console.log(tasks)
   return (
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
         Tasks
       </Typography>
-      {tasks.length === 0 ? (
+      {tasks && tasks?.length === 0 ? (
         <Typography variant="body1">No tasks available.</Typography>
       ) : (
         <List>
-          {tasks.map((task) => (
+          {tasks && tasks?.map((task) => (
             <ListItem key={task._id} style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box>
                 <Typography variant="h6">{task.title}</Typography>
