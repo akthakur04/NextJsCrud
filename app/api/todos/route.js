@@ -1,38 +1,22 @@
 import { NextResponse } from 'next/server';
-import { MongoClient } from 'mongodb';
-
-const uri = process.env.MONGODB_URI;
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-};
-
-let client;
-let clientPromise;
-
-if (!process.env.MONGODB_URI) {
-  throw new Error('Please add your Mongo URI to .env.local');
-}
-
-if (process.env.NODE_ENV === 'development') {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
-  }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
-}
+import connectMongo from '@/lib/mongodb';
+import Task from '@/models/Task';
 
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db('myapp');
-    const tasks = await db.collection('tasks').find({}).toArray();
-    return NextResponse.json(tasks);
+    await connectMongo();
+    console.log('Connected to MongoDB');
+    
+    const tasks = await Task.find({}).lean();
+    console.log(`Fetched ${tasks.length} tasks from the database`);
+    
+    return NextResponse.json(tasks, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+      },
+    });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: 'Unable to fetch todos' }, { status: 500 });
+    console.error('Error fetching tasks:', e);
+    return NextResponse.json({ error: 'Unable to fetch tasks' }, { status: 500 });
   }
 }
