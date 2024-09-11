@@ -8,7 +8,7 @@ export async function GET(req) {
   if (!session) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
-  const tasks = await Task.find({ userId: session.user.id });
+  const tasks = await Task.find({}).lean();
   return new Response(JSON.stringify(tasks), { status: 200 });
 }
 

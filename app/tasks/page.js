@@ -8,7 +8,6 @@ export default function ViewTasks() {
   const [tasks, setTasks] = useState([]);
   const router = useRouter();
   useEffect(() => {
-
     fetch('/api/todos', {
       method: 'GET',
       headers:{
