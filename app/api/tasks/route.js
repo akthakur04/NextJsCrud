@@ -5,11 +5,9 @@ import { getSession } from 'next-auth/react';
 export async function GET(req) {
   await connectMongo();
   const session = await getSession({ req });
-  
   if (!session) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
-  console.log('GET1');
   const tasks = await Task.find({ userId: session.user.id });
   return new Response(JSON.stringify(tasks), { status: 200 });
 }

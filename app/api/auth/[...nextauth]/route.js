@@ -26,11 +26,19 @@ const handler = NextAuth({
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // Optional: session expiration (30 days)
   },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
+  
   pages: {
-    signIn: '/login',
-    error: '/login', // Redirect to login on error
-  },
+  signIn: '/login',
+  error: '/login', // Redirect to login on error
+},
 });
 
+
+
 export { handler as GET, handler as POST };
+
